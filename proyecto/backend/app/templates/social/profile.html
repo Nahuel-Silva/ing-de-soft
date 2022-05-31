@@ -1,0 +1,42 @@
+{% extends 'social/feed.html' %}
+{% block content %}
+
+<!-- Profile -->
+<div class="profile">
+	<img src="{{ user.profile.image.url }}">
+	<h2>{{ user.username }}</h2>
+	<h3>{{ user.profile.description }}</h3>
+	{% if request.user.is_authenticated %}
+		{% if user.username != request.user.username %}
+			{% if user not in request.user.profile.following %}
+			<button><a class="follow-button" href="{% url 'follow' user %}">Seguir</a></button>
+			{% else %}
+			<button><a class="unfollow-button" href="{% url 'unfollow' user %}">Dejas de seguir</a></button>
+			{% endif %}
+		{% endif %}
+	{% endif %}
+</div>
+
+<!-- Follow items -->
+<div class="follow">
+	<div>
+		<h5>Publicaciones</h5>
+		<p>{{ user.posts.count }}</p>
+	</div>
+	<div>
+		<h5>Seguidores</h5>
+		<p>{{ user.profile.followers.count }}</p>
+
+	</div>
+	<div>
+		<h5>Seguidos</h5>
+		<p>{{ user.profile.following.count }}</p>
+	</div>
+</div>
+
+<div class="albumes">
+</div>
+
+
+{{ block.super }}
+{% endblock %}
