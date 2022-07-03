@@ -10,9 +10,9 @@ class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
 
     class Meta:
-        model = User
+        model = User #Asociamos el modelo user al formulario
         fields = ['name', 'lastname', 'username', 'email']
-        help_texts = { k:"" for k in fields }
+        help_texts = { k:"" for k in fields } #remueve los textos de ayuda
 
 class PostForm(forms.ModelForm):
     title = forms.CharField()

@@ -14,13 +14,13 @@ class Profile(models.Model):
 
     def following(self):
         user_ids = Relationship.objects.filter(from_user=self.user)\
-                                .values_list('to_user_id', flat=True)
-        return User.objects.filter(id__in=user_ids)
+                                .values_list('to_user_id', flat=True) # Te da una lista con las relaciones del usuario.
+        return User.objects.filter(id__in=user_ids) # Te devuelve los usuario que vos seguis.
 
     def followers(self):
         user_ids = Relationship.objects.filter(to_user=self.user)\
                                 .values_list('from_user_id', flat=True)
-        return User.objects.filter(id__in=user_ids)
+        return User.objects.filter(id__in=user_ids) # Te devuelve los usuario que te siguen.
     
 
 class Post(models.Model):

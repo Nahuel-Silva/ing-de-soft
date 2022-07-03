@@ -13,8 +13,8 @@ def feed(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST, request.FILES)
-        if form.is_valid():
+        form = UserRegisterForm(request.POST, request.FILES) # para acceder a la info enviada atraves de esta form
+        if form.is_valid(): #Verifica que la form se haya llenado correctamente
             form.save()
             username = form.cleaned_data['username']
             messages.success(request, f'Usuario {username} creado!')
@@ -47,23 +47,22 @@ def profile(request, username=None):
         user = User.objects.get(username=username)
         posts = user.posts.all()
     else:
+        user = request.user
         posts = current_user.posts.all()
-        user = current_user
     context = {'user': user, 'posts': posts}
     return render(request, 'social/profile.html', context)
 
 
 def follow(request, username):
-    current_user = request.user
+    current_user = request.user #Usuario logueado
     to_user = User.objects.get(username=username)
-    to_user_id = to_user
-    rel = Relationship(from_user=current_user, to_user=to_user_id)
+    rel = Relationship(from_user=current_user, to_user=to_user)
     rel.save()
     messages.success(request, f'sigues a {username}!')
     return redirect('feed')
 
 def unfollow(request, username):
-    current_user = request.user
+    current_user = request.user #Usuario logueado
     to_user = User.objects.get(username=username)
     to_user_id = to_user.id
     rel = Relationship.objects.filter(from_user=current_user.id, to_user=to_user_id).get()
