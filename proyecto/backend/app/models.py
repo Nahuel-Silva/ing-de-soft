@@ -1,5 +1,3 @@
-from distutils.command.upload import upload
-from pyexpat import model
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone

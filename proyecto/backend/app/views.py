@@ -16,7 +16,7 @@ def register(request):
         form = UserRegisterForm(request.POST, request.FILES) # para acceder a la info enviada atraves de esta form
         if form.is_valid(): #Verifica que la form se haya llenado correctamente
             form.save()
-            username = form.cleaned_data['username']
+            username = form.cleaned_data['username'] #Accedemos al campo username
             messages.success(request, f'Usuario {username} creado!')
             return redirect('login')
     else:
@@ -41,7 +41,7 @@ def post(request):
     context = {'form': form }
     return render(request, 'social/post.html', context)
 
-def profile(request, username=None):
+def profile(request, username=None): #El segundo atributo es para cuando visitas el perfil de un usuario
     current_user = request.user
     if username and username != current_user.username:
         user = User.objects.get(username=username)
